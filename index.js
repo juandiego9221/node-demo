@@ -28,6 +28,15 @@ app.get("/categories/:categoryId/products/:productId", (req, res) => {
   res.json({ categoryId, productId });
 });
 
+app.get('/users', (req, res) => {
+  const { limit, offset } = req.query;
+  if (limit && offset) {
+    res.json({ limit, offset });
+  } else {
+    res.json({ message: 'no limit or offset' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
