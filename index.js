@@ -1,4 +1,6 @@
 const express = require('express');
+const { faker } = require('@faker-js/faker');
+
 const app = express();
 const port = 3000;
 
@@ -12,8 +14,27 @@ app.get('/example1', (req, res) => {
 });
 
 app.get('/products', (req, res) => {
-  const products = [{ name: 'product 1', price: 20 }, { name: 'product 2', price: 30 }, { name: 'product 3', price: 40 }];
+  const products = [];
+  // from size query param add it to a const call limit
+  const { size } = req.query;
+  const limit = size || 10;
+
+  for (let index = 0; index < limit; index++) {
+    products.push({
+      name: faker.commerce.productName(),
+      price: parseInt(faker.commerce.price()),
+      image: faker.image.url(),
+    })
+
+  }
   res.json(products);
+});
+
+/*
+Los endpoits especificos deben ir antes que los generales
+*/
+app.get('/products/example', (req, res) => {
+  console.log('example');
 });
 
 app.get('/products/:id', (req, res) => {
@@ -22,6 +43,7 @@ app.get('/products/:id', (req, res) => {
   const product = { id, name: 'product 1', price: 20 };
   res.json(product);
 });
+
 
 app.get("/categories/:categoryId/products/:productId", (req, res) => {
   const { categoryId, productId } = req.params;
