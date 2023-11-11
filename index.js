@@ -2,6 +2,9 @@ const express = require('express');
 const { faker } = require('@faker-js/faker');
 const routerApi = require("./routes")
 
+// require error handler function from errorHandler.js
+const { logErrors, errorHandler } = require('./middleware/errorHandler');
+
 const app = express();
 const port = 3000;
 
@@ -18,6 +21,9 @@ app.get('/example1', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
+
 });
 
 routerApi(app);
+app.use(logErrors);
+app.use(errorHandler);

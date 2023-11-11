@@ -38,7 +38,13 @@ class ProductService {
 
   async findOne(id) {
     // find product by id
-    return this.products.find(item => item.id === id);
+    console.log("findOne")
+    // from products get the product by id
+    const product = this.products.find(item => item.id === id);
+    if (!product) {
+      throw new Error("Product not found");
+    }
+    return product;
   }
 
   async delete(id) {
