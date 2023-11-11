@@ -1,10 +1,10 @@
 const { faker } = require('@faker-js/faker');
-
 class ProductService {
   constructor() {
     this.products = [];
     this.generate();
   }
+
   generate() {
     const limit = 10;
     // const limit = size || 10;
@@ -19,7 +19,7 @@ class ProductService {
     }
   }
 
-  create(data) {
+  async create(data) {
     const newProduct = {
       id: faker.string.uuid(),
       ...data
@@ -27,16 +27,21 @@ class ProductService {
     this.products.push(newProduct);
     return newProduct;
   }
+
   find() {
-    return this.products;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(this.products);
+      }, 3000);
+    });
   }
 
-  findOne(id) {
+  async findOne(id) {
     // find product by id
     return this.products.find(item => item.id === id);
   }
 
-  delete(id) {
+  async delete(id) {
     // delete from products by id
     const index = this.products.findIndex(item => item.id === id);
     if (index === -1) {
@@ -45,7 +50,7 @@ class ProductService {
     this.products.splice(index, 1);
   }
 
-  update(data, id) {
+  async update(data, id) {
     const index = this.products.findIndex(item => item.id === id);
     if (index === -1) {
       throw new Error("Product not found");
@@ -58,7 +63,6 @@ class ProductService {
     }
     return this.products[index];
   }
-
 }
 
 // export default ProductService;
