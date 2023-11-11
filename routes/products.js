@@ -30,28 +30,24 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   const body = req.body;
+  response = productsService.create(body);
   res
     .status(201)
-    .json({
-      message: "created",
-      data: body
-    })
+    .json(response)
 });
 
 router.patch('/:id ', (req, res) => {
   const { id } = req.params;
   const body = req.body;
+  response = productsService.update(body, id);
   res
     .status(200)
-    .json({
-      message: "created",
-      data: body,
-      id
-    })
+    .json(response)
 });
 
 router.delete('/:id ', (req, res) => {
   const { id } = req.params;
+  productsService.delete(id);
   res.status(200).json({
     message: "deleted",
     id
