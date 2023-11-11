@@ -14,6 +14,7 @@ class ProductService {
         name: faker.commerce.productName(),
         price: parseInt(faker.commerce.price()),
         image: faker.image.url(),
+        category: faker.commerce.department(),
       })
     }
   }
