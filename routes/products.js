@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
     .json(response)
 });
 
-router.patch('/:id ', async (req, res) => {
+router.patch('/:id ', async (req, res, next) => {
   try {
     const { id } = req.params;
     const body = req.body;
@@ -53,19 +53,21 @@ router.patch('/:id ', async (req, res) => {
       .status(200)
       .json(response)
   } catch (error) {
-    res.status(404).json({
-      message: error.message
-    })
+    next(error);
   }
 });
 
-router.delete('/:id ', async (req, res) => {
+router.delete('/:id ', async (req, res, next) => {
   const { id } = req.params;
-  await productsService.delete(id);
-  res.status(200).json({
-    message: "deleted",
-    id
-  })
+  try {
+    await productsService.delete(id);
+    res.status(200).json({
+      message: "deleted",
+      id
+    })
+  } catch (error) {
+    next(error);
+  }
 });
 
 // export router
